@@ -1,0 +1,34 @@
+title Sim390 MUSIC/SP Demo system
+* Sample configuration file for Sim390 mainframe emulator.
+* This file assumes the MUSIC/SP Demo system printer and volume
+* files have been created in directory c:\sim390dm.
+* If necessary, adjust the file names below.
+memory 16M
+console columns 80 rows 24
+autoipl 201 blankcmd
+* TCP/IP port number for tn3270 connections.
+* Set remote3270port 0 if you want to disable the tn3270 server:
+remote3270port 2023
+list on
+remote3270filter allow 127.0.0.1     // loopback addr (localhost)
+remote3270filter deny all            // deny all others
+list off
+iodevice console 00F
+iodevice reader 00C
+* Card punch device is not supported yet:
+iodevice punch 00D invalid
+* Printer output text file must be pre-allocated:
+list on
+iodevice printer 00E musdemo_b\printout.txt append
+iodevice diskf512 201 musdemo_b\musicxd.vol
+list off
+* The following are for local 3270 sessions:
+iodevice local3270 0F0
+iodevice local3270 0F1
+iodevice local3270 0F2
+iodevice local3270 0F3
+* The following are for connections via Telnet (tn3270) client:
+iodevice remote3270 0F4
+iodevice remote3270 0F5
+iodevice remote3270 0F6
+iodevice remote3270 0F7
