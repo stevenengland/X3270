@@ -100,7 +100,7 @@
             if (response.PayLoad.To2DimensionalTerminalArray()[15][10] == "u") return;
             /* If not navigate to start screen */
             await this.apiClient.Tab().ConfigureAwait(false); // If keys are locked
-            await this.apiClient.PF(3).ConfigureAwait(false); // log off
+            await this.apiClient.Pf(3).ConfigureAwait(false); // log off
             /* Determine if we are on the start screen */
             response = await this.apiClient.Ascii().ConfigureAwait(false);
             Assert.That(response.PayLoad.To2DimensionalTerminalArray()[15][10] == "u");
@@ -162,7 +162,7 @@
         }
 
         /// <summary>
-        /// Test the ASCII command.
+        /// Test the <c>Ascii</c> command.
         /// </summary>
         /// <returns>
         /// The <see cref="Task"/>.
@@ -175,7 +175,37 @@
         }
 
         /// <summary>
-        /// Test the Tab command.
+        /// Test the <c>AsciiField</c> command.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        [Test, Category("Rest Actions")]
+        public async Task TestAsciiField()
+        {
+            await this.apiClient.Enter().ConfigureAwait(false);
+            await this.apiClient.Key('+').ConfigureAwait(false);
+            var response = await this.apiClient.AsciiField().ConfigureAwait(false);
+            Assert.That(response.PayLoad.StartsWith("+"));
+        }
+
+        /// <summary>
+        /// Test the <c>Key</c> command.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        [Test, Category("Rest Actions")]
+        public async Task TestKey()
+        {
+            await this.apiClient.Enter().ConfigureAwait(false);
+            await this.apiClient.Key('+').ConfigureAwait(false);
+            var response = await this.apiClient.AsciiField().ConfigureAwait(false);
+            Assert.That(response.PayLoad.StartsWith("+"));
+        }
+
+        /// <summary>
+        /// Test the <c>Tab</c> command.
         /// </summary>
         /// <returns>
         /// The <see cref="Task"/>.
@@ -191,7 +221,7 @@
         }
 
         /// <summary>
-        /// Test the Enter command.
+        /// Test the <c>Enter</c> command.
         /// </summary>
         /// <returns>
         /// The <see cref="Task"/>.

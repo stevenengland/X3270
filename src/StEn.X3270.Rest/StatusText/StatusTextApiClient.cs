@@ -148,7 +148,7 @@
         }
 
         /// <summary>
-        /// Outputs an ASCII text representation of the screen contents.
+        /// Receives an ASCII text representation of the screen contents.
         /// <remarks>Start x3270 with UTF8 switch if you need characters that are not included in ASCII.</remarks>
         /// </summary>
         /// <param name="cancellationToken">
@@ -160,6 +160,21 @@
         public Task<StatusTextResponse<string>> Ascii(CancellationToken cancellationToken = default(CancellationToken))
         {
             return this.Request<string>("Ascii", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Receives an ASCII text representation of the field containing the cursor.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> AsciiField(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("AsciiField", null, cancellationToken);
         }
 
         /// <summary>
@@ -191,10 +206,10 @@
         }
 
         /// <summary>
-        /// Program Function AID (n from 1 to 24). May Block.
+        /// Insert a single character at the cursor position.
         /// </summary>
-        /// <param name="programFunctionKey">
-        /// The pf key.
+        /// <param name="key">
+        /// The key.
         /// </param>
         /// <param name="cancellationToken">
         /// The cancellation token.
@@ -202,7 +217,24 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        public Task<StatusTextResponse<string>> PF(
+        public Task<StatusTextResponse<string>> Key(char key, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>($"Key({key})", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Program Function AID (n from 1 to 24). May Block.
+        /// </summary>
+        /// <param name="programFunctionKey">
+        /// The PF [1..24] key.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Pf(
             int programFunctionKey,
             CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -337,6 +369,8 @@
             response.PayLoad = (responseArray.Length > 1)
                                    ? string.Join(Environment.NewLine, responseArray.Skip(1))
                                    : string.Empty;
+            /* everything went fine todo: check for conditions that lead to false. if there aren't any, remove the property. */
+            response.Success = true;
             return response;
         }
 

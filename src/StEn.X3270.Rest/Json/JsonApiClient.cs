@@ -9,9 +9,9 @@
     using Types.Enums;
 
     /// <summary>
-    /// This is just a dummy at the moment due to the fact that the JSON interface is not present yet in th x3270 client.
+    /// This is just a dummy at the moment due to the fact that the JSON interface is not present yet in th x3270 client. Therefore it is made internal
     /// </summary>
-    public class JsonApiClient : IApiClient, IDisposable
+    internal class JsonApiClient : IApiClient, IDisposable
     {
         public int Port { get; }
 
@@ -27,7 +27,17 @@
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> PF(int programFunctionKey, CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> AsciiField(CancellationToken cancellationToken = new CancellationToken())
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<StatusTextResponse<string>> Key(char key, CancellationToken cancellationToken = new CancellationToken())
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<StatusTextResponse<string>> Pf(int programFunctionKey, CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
