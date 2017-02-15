@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>X3270.Rest</id>
+    <version>0.1.0</version>
+    <title>X3270.Rest</title>
+    <authors>Steven England</authors>
+    <owners>england, steven</owners>
+    <description>
+      X3270.Rest is a wrapper for the x3270 REST interface that enables you to remote control a running x3270 terminal sessions.
+    </description>
+    <releaseNotes>
+      - 0.1.0 
+        - Initial release
+    </releaseNotes>
+    <summary>
+      X3270.Rest is a wrapper for the x3270 REST interface.
+    </summary>
+    <language>en-US</language>
+    <projectUrl>https://github.com/stevenengland/X3270</projectUrl>
+    <iconUrl>https://github.com/stevenengland/X3270/blob/master/assets/logo_rest.png?raw=true</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/stevenengland/X3270/blob/master/License.md</licenseUrl>
+    <copyright>Copyright  2017</copyright>
+    <dependencies>
+    </dependencies>
+    <references></references>
+    <tags>tn3270 x3270 rest telnet-client ibm-mainframe</tags>
+  </metadata>
+  <files>
+    <file src="lib\net451\X3270.Rest.dll" target="lib\net451" />
+    <file src="lib\net451\X3270.Rest.pdb" target="lib\net451" />
+    <file src="lib\net451\X3270.Rest.xml" target="lib\net451" />
+    <file src="tools\" target="tools" />
+    <file src="content\" target="content" />
+  </files>
+</package>
