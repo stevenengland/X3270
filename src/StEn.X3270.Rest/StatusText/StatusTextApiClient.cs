@@ -178,6 +178,380 @@
         }
 
         /// <summary>
+        /// Move cursor left.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> BackSpace(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("BackSpace", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Tab to start of previous input field.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> BackTab(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("BackTab", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Input "^" in NVT mode, or "¬" in 3270 mode.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> CircumNot(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("CircumNot", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Clears the screen.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Clear(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Clear", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// The next two keys form a special symbol. For example, "Compose" followed by the "C" key and the "," (comma) key, enters the "C-cedilla" symbol. A C on the status line indicates a pending composite character.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Compose(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Compose", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Cursor Select AID.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> CursorSelect(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("CursorSelect", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Copy highlighted area to clipboard and erase.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Cut(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Cut", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Delete character under cursor (or send ASCII DEL)
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Delete(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Delete", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Delete the entire field.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> DeleteField(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("DeleteField", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Delete the current or previous word.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> DeleteWord(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("DeleteWord", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Disconnect from host.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Disconnect(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Disconnect", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Move cursor down.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Down(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Down", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Duplicate field.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Dup(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Dup", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// The same function as <c>Ascii</c>, except that rather than generating ASCII text, each character is output as a 2-digit or 4-digit hexadecimal EBCDIC code. 
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Ebcdic(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Ebcdic", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// The same function as <c>AsciiField</c> above, except that it generates hexadecimal EBCDIC codes.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> EbcdicField(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("EbcdicField", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Erase previous character.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Erase(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Erase", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Erase to end of current field.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> EraseEof(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("EraseEOF", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Erase all input fields.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> EraseInput(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("EraseInput", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Move cursor to end of field.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> FieldEnd(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("FieldEnd", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Mark field.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> FieldMark(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("FieldMark", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Insert control-character string.
+        /// </summary>
+        /// <param name="hex">
+        /// The hexadecimal string.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> HexString(
+            string hex,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>($"HexString({hex})");
+        }
+
+        /// <summary>
+        /// Move cursor to first input field.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Home(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Home", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// In <c>x3270</c>, pops up an informational message. In <c>c3270</c> and <c>wc3270</c>, writes an informational message to the OIA (the line below the display). Not defined for <c>s3270</c> or<c>tcl3270</c>. 
+        /// </summary>
+        /// <param name="message">
+        /// The message.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Info(
+            string message,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>($"Info({message})", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Set insert mode.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Insert(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Insert", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Do nothing.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Ignore(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("ignore", null, cancellationToken);
+        }
+
+
+        /// <summary>
         /// Move cursor to next input field.
         /// </summary>
         /// <param name="cancellationToken">
@@ -240,6 +614,40 @@
         {
             return this.Request<string>($"PF({programFunctionKey})", null, cancellationToken);
         }
+
+        /// <summary>
+        /// Executes a raw string as command.
+        /// </summary>
+        /// <param name="rawCommand">
+        /// The raw Command. For example "PF(3)".
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Raw(
+            string rawCommand,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>(rawCommand, null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Move cursor up.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Up(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Up", null, cancellationToken);
+        }
+
 
         /// <summary>
         /// Sends a HTTP request.

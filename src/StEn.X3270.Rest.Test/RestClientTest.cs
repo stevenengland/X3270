@@ -11,6 +11,7 @@
 
     using StEn.X3270.Rest.Extensions;
     using StEn.X3270.Rest.StatusText;
+    using StEn.X3270.Rest.Types.Exception;
 
     /// <summary>
     /// Tests concerning the rest client.
@@ -246,7 +247,36 @@
         /// </returns>
         public async Task CommandWithoutExpectedResult()
         {
-            
+            await this.apiClient.Raw("Ascii").ConfigureAwait(false);
+            await this.apiClient.CircumNot().ConfigureAwait(false);
+            await this.apiClient.BackSpace().ConfigureAwait(false);
+            await this.apiClient.CursorSelect().ConfigureAwait(false);
+            await this.apiClient.BackTab().ConfigureAwait(false);
+            await this.apiClient.Home().ConfigureAwait(false);
+            await this.apiClient.Compose().ConfigureAwait(false);  
+            await this.apiClient.Key('C').ConfigureAwait(false);
+            await this.apiClient.Key(',').ConfigureAwait(false);
+            await this.apiClient.Delete().ConfigureAwait(false);
+            await this.apiClient.DeleteField().ConfigureAwait(false);
+            await this.apiClient.DeleteWord().ConfigureAwait(false);
+            await this.apiClient.Cut().ConfigureAwait(false);
+            await this.apiClient.Clear().ConfigureAwait(false);
+            await this.apiClient.Down().ConfigureAwait(false);
+            await this.apiClient.Up().ConfigureAwait(false);
+            await this.apiClient.Home().ConfigureAwait(false);
+            await this.apiClient.Dup().ConfigureAwait(false);
+            await this.apiClient.Ebcdic().ConfigureAwait(false);
+            await this.apiClient.EbcdicField().ConfigureAwait(false);
+            await this.apiClient.Erase().ConfigureAwait(false);
+            await this.apiClient.EraseEof().ConfigureAwait(false);
+            await this.apiClient.EraseInput().ConfigureAwait(false);
+            await this.apiClient.FieldEnd().ConfigureAwait(false);
+            await this.apiClient.FieldMark().ConfigureAwait(false);
+            await this.apiClient.Info("test").ConfigureAwait(false);
+            await this.apiClient.Ignore().ConfigureAwait(false);
+
+            await this.apiClient.HexString("FF").ConfigureAwait(false);
+            Assert.ThrowsAsync<RequestException>(async () => await this.apiClient.Disconnect().ConfigureAwait(false));
         }
 
         /// <summary>
