@@ -11,10 +11,13 @@
 X3270
 ===
 
+X3270 is the namespace under which I want to release libraries that expose additional functionalities for the x3270 client by Paul Mattes.
+
 X3270.Rest
 ===
 
-X3270.Rest is a wrapper for the standard x3270 REST interface.
+X3270.Rest is a wrapper for the standard x3270 HTTP REST interface. Remote controlling the x3270 client via HTTP is very advantageous because the HTTP protocol is very mature and as popular as never before. This imlies a broad support of any kind. In terms of .NET this means that one can easily build really asynchronous 
+calls from ones application to the x3270 terminal by using just a few native features for HTTP. This is why I built X3270.Rest that wrapps all the calls to x3270 for you in a straighforward manner.
 
 More content coming soon...
 
@@ -46,3 +49,7 @@ Then x3270:
 ```
 wc3270 -httpd 6001 +S "test.wc3270"
 ```
+Credits
+===
+
+Thank you Paul Mattes for building x3270 where this repo is based on.

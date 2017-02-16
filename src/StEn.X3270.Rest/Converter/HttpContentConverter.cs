@@ -1,12 +1,11 @@
 ﻿namespace StEn.X3270.Rest.Converter
 {
+    using System;
     using System.Collections.Specialized;
     using System.Linq;
     using System.Net.Http;
     using System.Text;
     using System.Web;
-
-    using Newtonsoft.Json;
 
     using Types;
 
@@ -38,7 +37,9 @@
                 case "FileToSend":
                     return new StreamContent(((FileToSend)value).Content);
                 default:
-                    return new StringContent(JsonConvert.SerializeObject(value));
+                    throw new NotSupportedException();
+
+                // return new StringContent(JsonConvert.SerializeObject(value));
             }
         }
 

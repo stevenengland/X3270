@@ -238,6 +238,18 @@
         }
 
         /// <summary>
+        /// Run commands but don't check the result. It is only important that no error returns what means the command was accepted anyhow.
+        /// Used because there is too less time to test each and every command ;)
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public async Task CommandWithoutExpectedResult()
+        {
+            
+        }
+
+        /// <summary>
         /// Tries to find the project solution file.
         /// </summary>
         /// <param name="currentPath">
@@ -255,6 +267,8 @@
             }
 
             return directory;
-        }
+       }
+
+
     }
 }
