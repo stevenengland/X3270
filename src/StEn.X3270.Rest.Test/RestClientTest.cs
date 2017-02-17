@@ -11,6 +11,7 @@
 
     using StEn.X3270.Rest.Extensions;
     using StEn.X3270.Rest.StatusText;
+    using StEn.X3270.Rest.Types.Enums;
     using StEn.X3270.Rest.Types.Exception;
 
     /// <summary>
@@ -239,6 +240,31 @@
         }
 
         /// <summary>
+        /// Test the <c>Macro</c> command.
+        /// </summary>
+        [Test, Category("Rest Actions")]
+        public void TestMacroAndQuit()
+        {
+            var ex = Assert.ThrowsAsync<RequestException>(async () => await this.apiClient.Macro("testmacro").ConfigureAwait(false));
+            Assert.That(ex.Message == "no such macro: 'testmacro'");
+            Assert.ThrowsAsync<RequestException>(async () => await this.apiClient.Quit().ConfigureAwait(false));
+        }
+
+        /// <summary>
+        /// Test the <c>Macro</c> command.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        [Test, Category("Rest Actions")]
+        public async Task TestKeymap()
+        {
+            await this.apiClient.Keymap().ConfigureAwait(false);
+            var ex = Assert.ThrowsAsync<RequestException>(async () => await this.apiClient.Keymap("test").ConfigureAwait(false));
+            Assert.That(ex.Message == "no such keymap: 'test'");
+        }
+
+        /// <summary>
         /// Run commands but don't check the result. It is only important that no error returns what means the command was accepted anyhow.
         /// Used because there is too less time to test each and every command ;)
         /// </summary>
@@ -248,10 +274,31 @@
         public async Task CommandWithoutExpectedResult()
         {
             await this.apiClient.Raw("Ascii").ConfigureAwait(false);
+            await this.apiClient.ReadBufferAsAscii().ConfigureAwait(false);
+            await this.apiClient.ReadBufferAsEbcdic().ConfigureAwait(false);
+            await this.apiClient.Redraw().ConfigureAwait(false);
+            await this.apiClient.Reset().ConfigureAwait(false);
+            await this.apiClient.Ascii(0, 0, 10, 10).ConfigureAwait(false);
+            await this.apiClient.Ascii(0, 0, 10).ConfigureAwait(false);
+            await this.apiClient.Ascii(10).ConfigureAwait(false);
+            await this.apiClient.Ebcdic(0, 0, 10, 10).ConfigureAwait(false);
+            await this.apiClient.Ebcdic(0, 0, 10).ConfigureAwait(false);
+            await this.apiClient.Ebcdic(10).ConfigureAwait(false);
+            await this.apiClient.AnsiText().ConfigureAwait(false);
+            await this.apiClient.Query().ConfigureAwait(false);
+            await this.apiClient.Query(QueryKeyword.BindPluName).ConfigureAwait(false);
+            await this.apiClient.ScrollForward().ConfigureAwait(false);
+            await this.apiClient.ScrollBackward().ConfigureAwait(false);
+
+
+
             await this.apiClient.CircumNot().ConfigureAwait(false);
             await this.apiClient.BackSpace().ConfigureAwait(false);
+
             await this.apiClient.CursorSelect().ConfigureAwait(false);
             await this.apiClient.BackTab().ConfigureAwait(false);
+            await this.apiClient.Tab().ConfigureAwait(false);
+
             await this.apiClient.Home().ConfigureAwait(false);
             await this.apiClient.Compose().ConfigureAwait(false);  
             await this.apiClient.Key('C').ConfigureAwait(false);
@@ -274,9 +321,36 @@
             await this.apiClient.FieldMark().ConfigureAwait(false);
             await this.apiClient.Info("test").ConfigureAwait(false);
             await this.apiClient.Ignore().ConfigureAwait(false);
+            await this.apiClient.Home().ConfigureAwait(false);
+            await this.apiClient.Left().ConfigureAwait(false);
+            await this.apiClient.Left2().ConfigureAwait(false);
+            await this.apiClient.Right().ConfigureAwait(false);
+            await this.apiClient.Right2().ConfigureAwait(false);
+
+            await this.apiClient.MoveCursor().ConfigureAwait(false);
+            await this.apiClient.MoveCursor(0, 0).ConfigureAwait(false);
+
+            await this.apiClient.Home().ConfigureAwait(false);
+            await this.apiClient.Clear().ConfigureAwait(false);
+            await this.apiClient.Newline().ConfigureAwait(false);
+            await this.apiClient.NextWord().ConfigureAwait(false);
+            await this.apiClient.PreviousWord().ConfigureAwait(false);
+            await this.apiClient.Title("new title").ConfigureAwait(false);
+
+            await this.apiClient.Home().ConfigureAwait(false);
+            await this.apiClient.Clear().ConfigureAwait(false);
+            await this.apiClient.Execute("echo hallo").ConfigureAwait(false);
+
+
+            await this.apiClient.MonoCase().ConfigureAwait(false);
+            await this.apiClient.MonoCase().ConfigureAwait(false);
+
+            await this.apiClient.Attn().ConfigureAwait(false);
 
             await this.apiClient.HexString("FF").ConfigureAwait(false);
-            Assert.ThrowsAsync<RequestException>(async () => await this.apiClient.Disconnect().ConfigureAwait(false));
+            await this.apiClient.Source("inputSource.txt").ConfigureAwait(false); // assumes txt insame directory as x3270
+            /* will disconnect AND and return a status */
+            await this.apiClient.Disconnect().ConfigureAwait(false);
         }
 
         /// <summary>

@@ -148,6 +148,21 @@
         }
 
         /// <summary>
+        /// Outputs whatever data that has been output by the host in NVT mode since the last time that <c>AnsiText</c> was called.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> AnsiText(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("AnsiText", null, cancellationToken);
+        }
+
+        /// <summary>
         /// Receives an ASCII text representation of the screen contents.
         /// <remarks>Start x3270 with UTF8 switch if you need characters that are not included in ASCII.</remarks>
         /// </summary>
@@ -163,6 +178,93 @@
         }
 
         /// <summary>
+        /// Receives an ASCII text representation of the screen contents.
+        /// A rectangular region of the screen is output. (Note that the row and column are zero-origin.) 
+        /// <remarks>
+        /// Start x3270 with UTF8 switch if you need characters that are not included in ASCII.
+        /// </remarks>
+        /// </summary>
+        /// <param name="row">
+        /// The row.
+        /// </param>
+        /// <param name="col">
+        /// The col.
+        /// </param>
+        /// <param name="rows">
+        /// The row span.
+        /// </param>
+        /// <param name="cols">
+        /// The col span.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Ascii(
+            int row,
+            int col,
+            int rows,
+            int cols,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>($"Ascii({row},{col},{rows},{cols})", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Receives an ASCII text representation of the screen contents.
+        /// <remarks>
+        /// Start x3270 with UTF8 switch if you need characters that are not included in ASCII.
+        /// </remarks>
+        /// </summary>
+        /// <param name="row">
+        /// The row.
+        /// </param>
+        /// <param name="col">
+        /// The col.
+        /// </param>
+        /// <param name="length">
+        /// The length of characters that are output, starting at row/col.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Ascii(
+            int row,
+            int col,
+            int length,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>($"Ascii({row},{col},{length})", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Receives an ASCII text representation of the screen contents.
+        /// <remarks>
+        /// Start x3270 with UTF8 switch if you need characters that are not included in ASCII.
+        /// </remarks>
+        /// </summary>
+        /// <param name="length">
+        /// The length of characters that are output, starting at the cursor position.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Ascii(
+            int length,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>($"Ascii({length})", null, cancellationToken);
+        }
+
+        /// <summary>
         /// Receives an ASCII text representation of the field containing the cursor.
         /// </summary>
         /// <param name="cancellationToken">
@@ -175,6 +277,20 @@
             CancellationToken cancellationToken = default(CancellationToken))
         {
             return this.Request<string>("AsciiField", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// The 3270 ATTN key is interpreted by many host applications in an SNA environment as an indication that the user wishes to interrupt the execution of the current process.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Attn(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Attn", null, cancellationToken);
         }
 
         /// <summary>
@@ -382,6 +498,84 @@
         }
 
         /// <summary>
+        /// The same function as <c>Ascii</c>, except that rather than generating ASCII text, each character is output as a 2-digit or 4-digit hexadecimal EBCDIC code. 
+        /// A rectangular region of the screen is output. (Note that the row and column are zero-origin.) 
+        /// </summary>
+        /// <param name="row">
+        /// The row.
+        /// </param>
+        /// <param name="col">
+        /// The col.
+        /// </param>
+        /// <param name="rows">
+        /// The row span.
+        /// </param>
+        /// <param name="cols">
+        /// The col span.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Ebcdic(
+            int row,
+            int col,
+            int rows,
+            int cols,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>($"Ebcdic({row},{col},{rows},{cols})", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// The same function as <c>Ascii</c>, except that rather than generating ASCII text, each character is output as a 2-digit or 4-digit hexadecimal EBCDIC code. 
+        /// </summary>
+        /// <param name="row">
+        /// The row.
+        /// </param>
+        /// <param name="col">
+        /// The col.
+        /// </param>
+        /// <param name="length">
+        /// The length of characters that are output, starting at row/col.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Ebcdic(
+            int row,
+            int col,
+            int length,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>($"Ebcdic({row},{col},{length})", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// The same function as <c>Ascii</c>, except that rather than generating ASCII text, each character is output as a 2-digit or 4-digit hexadecimal EBCDIC code. 
+        /// </summary>
+        /// <param name="length">
+        /// The length of characters that are output, starting at the cursor position.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Ebcdic(
+            int length,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>($"Ebcdic({length})", null, cancellationToken);
+        }
+
+        /// <summary>
         /// The same function as <c>AsciiField</c> above, except that it generates hexadecimal EBCDIC codes.
         /// </summary>
         /// <param name="cancellationToken">
@@ -438,6 +632,28 @@
             CancellationToken cancellationToken = default(CancellationToken))
         {
             return this.Request<string>("EraseInput", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Execute a command in a shell.
+        /// <remarks>
+        /// Put the command in double quotes if it contains whitespaces etc. Like "echo hello".
+        /// </remarks>
+        /// </summary>
+        /// <param name="command">
+        /// The command.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Execute(
+            string command,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>($"Execute({command})", null, cancellationToken);
         }
 
         /// <summary>
@@ -550,6 +766,356 @@
             return this.Request<string>("ignore", null, cancellationToken);
         }
 
+        /// <summary>
+        /// Adds or removes a temporary key map. If the key map parameter is given, the named key map is added. If no parameter is given, the most recently added key map is removed.
+        /// </summary>
+        /// <param name="keymap">
+        /// The key map.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Keymap(
+            string keymap = "",
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>($"Keymap({keymap})", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Move cursor left.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Left(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Left", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Move cursor left 2 positions.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Left2(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Left2", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Run a macro.
+        /// </summary>
+        /// <param name="macroName">
+        /// The macro name.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Macro(
+            string macroName,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>($"Macro({macroName})", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Toggle uppercase-only mode.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> MonoCase(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("MonoCase", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Move cursor to mouse position.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> MoveCursor(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("MoveCursor", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Move cursor to coordinate from zero-origin (row,col).
+        /// </summary>
+        /// <param name="row">
+        /// The row.
+        /// </param>
+        /// <param name="col">
+        /// The col.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> MoveCursor(
+            int row,
+            int col,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>($"MoveCursor({row},{col})", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Move cursor to first field on next line.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Newline(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("NewLine", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Move cursor to next word.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> NextWord(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("NextWord", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Move cursor to previous word.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> PreviousWord(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("PreviousWord", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Returns state information. Without a keyword, Query returns each of the defined attributes, one per line, labeled by its name. 
+        /// </summary>
+        /// <param name="keyword">
+        /// The keyword.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Query(
+            QueryKeyword keyword = QueryKeyword.None,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>(keyword == QueryKeyword.None ? "Query" : $"Query({keyword})", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Exit <c>x3270</c>.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Quit(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Quit", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Dumps the contents of the screen buffer, one line at a time. Positions inside data fields are generally output as 2-digit hexadecimal codes in the current display character set. If the current locale specifies UTF-8 (or certain DBCS character sets), some positions may be output as multi-byte strings (4-, 6- or 8-digit codes). DBCS characters take two positions in the screen buffer; the first location is output as a multi-byte string in the current locale code set, and the second location is output as a dash. Start-of-field characters (each of which takes up a display position) are output as <c>SF(aa=nn[,...])</c>, where <c>aa</c> is a field attribute type and <c>nn</c> is its value.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> ReadBufferAsAscii(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("ReadBufferAsAscii", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Equivalent to <c>ReadBuffer(Ascii)</c>, but with the data fields output as hexadecimal EBCDIC codes instead. Additionally, if a buffer position has the Graphic Escape attribute, it is displayed as GE(xx).
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> ReadBufferAsEbcdic(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("ReadBufferAsEbcdic", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Redraws the window.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Redraw(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Redraw", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Resets locked keyboards.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Reset(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Reset", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Move cursor right.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Right(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Right", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Move cursor right 2 positions.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Right2(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Right2", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Scroll screen forward.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> ScrollForward(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Scroll(Forward)", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Scroll screen backward.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> ScrollBackward(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Scroll(Backward)", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Read and execute commands from file. Any output from those commands will become the output from Source. If any of the commands fails, the Source command will not abort; it will continue reading commands until EOF.
+        /// </summary>
+        /// <param name="file">
+        /// The file.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Source(
+            string file,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>($"Source({file})", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Changes the <c>wc3270</c> window title to text. 
+        /// </summary>
+        /// <param name="text">
+        /// The text.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Title(
+            string text,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>($"Source({text})", null, cancellationToken);
+        }
 
         /// <summary>
         /// Move cursor to next input field.
