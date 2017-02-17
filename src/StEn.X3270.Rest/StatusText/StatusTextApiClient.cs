@@ -946,7 +946,10 @@
             QueryKeyword keyword = QueryKeyword.None,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            return this.Request<string>(keyword == QueryKeyword.None ? "Query" : $"Query({keyword})", null, cancellationToken);
+            return this.Request<string>(
+                keyword == QueryKeyword.None ? "Query" : $"Query({keyword})",
+                null,
+                cancellationToken);
         }
 
         /// <summary>
@@ -1050,6 +1053,31 @@
         }
 
         /// <summary>
+        /// Runs a child script, passing it optional command-line arguments. path must specify an executable (binary) program: the emulator will create a new process and execute it. If you simply want the emulator to read commands from a file, use the <c>Source</c> action.
+        /// </summary>
+        /// <param name="file">
+        /// The file.
+        /// </param>
+        /// <param name="args">
+        /// The args.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Script(
+            string file,
+            string[] args = null,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return (args == null)
+                       ? this.Request<string>($"Script({file})", null, cancellationToken)
+                       : this.Request<string>($"Script({file},{string.Join(",", args)})", null, cancellationToken);
+        }
+
+        /// <summary>
         /// Scroll screen forward.
         /// </summary>
         /// <param name="cancellationToken">
@@ -1077,6 +1105,262 @@
             CancellationToken cancellationToken = default(CancellationToken))
         {
             return this.Request<string>("Scroll(Backward)", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Saves a copy of the screen image and status in a temporary buffer. This copy can be queried with other Snap actions to allow a script to examine a consistent screen image, even when the host may be changing the image (or even the screen dimensions) dynamically. 
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> Snap(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Snap", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Performs the <c>Ascii</c> action on the saved screen image.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> SnapAscii(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Snap(Ascii)", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Performs the <c>Ascii</c> action on the saved screen image.
+        /// </summary>
+        /// <param name="row">
+        /// The row.
+        /// </param>
+        /// <param name="col">
+        /// The col.
+        /// </param>
+        /// <param name="rows">
+        /// The row span.
+        /// </param>
+        /// <param name="cols">
+        /// The col span.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> SnapAscii(
+            int row,
+            int col,
+            int rows,
+            int cols,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>($"Snap(Ascii,{row},{col},{rows},{cols})", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Performs the <c>Ascii</c> action on the saved screen image.
+        /// </summary>
+        /// <param name="row">
+        /// The row.
+        /// </param>
+        /// <param name="col">
+        /// The col.
+        /// </param>
+        /// <param name="length">
+        /// The length of characters that are output, starting at row/col.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> SnapAscii(
+            int row,
+            int col,
+            int length,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>($"Snap(Ascii,{row},{col},{length})", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Performs the <c>Ascii</c> action on the saved screen image.
+        /// </summary>
+        /// <param name="length">
+        /// The length of characters that are output, starting at the cursor position.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> SnapAscii(
+            int length,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>($"Snap(Ascii,{length})", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Returns the number of columns in the saved screen image. 
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> SnapCols(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Snap(Cols)", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Performs the <c>Ebcdic</c> action on the saved screen image.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> SnapEbcdic(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Snap(Ebcdic)", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Performs the <c>Ebcdic</c> action on the saved screen image.
+        /// </summary>
+        /// <param name="row">
+        /// The row.
+        /// </param>
+        /// <param name="col">
+        /// The col.
+        /// </param>
+        /// <param name="rows">
+        /// The row span.
+        /// </param>
+        /// <param name="cols">
+        /// The col span.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> SnapEbcdic(
+            int row,
+            int col,
+            int rows,
+            int cols,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>($"Snap(Ebcdic,{row},{col},{rows},{cols})", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Performs the <c>Ebcdic</c> action on the saved screen image.
+        /// </summary>
+        /// <param name="row">
+        /// The row.
+        /// </param>
+        /// <param name="col">
+        /// The col.
+        /// </param>
+        /// <param name="length">
+        /// The length of characters that are output, starting at row/col.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> SnapEbcdic(
+            int row,
+            int col,
+            int length,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>($"Snap(Ebcdic,{row},{col},{length})", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Performs the <c>Ebcdic</c> action on the saved screen image.
+        /// </summary>
+        /// <param name="length">
+        /// The length of characters that are output, starting at the cursor position.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> SnapEbcdic(
+            int length,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>($"Snap(Ebcdic,{length})", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Returns the number of rows in the saved screen image.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> SnapRows(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Snap(Rows)", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Performs the ReadBuffer action on the saved screen image. 
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> SnapReadBuffer(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Snap(ReadBuffer)", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Returns the status line from when the screen was last saved.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> SnapStatus(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("Snap(Status)", null, cancellationToken);
         }
 
         /// <summary>
@@ -1157,7 +1441,9 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        public Task<StatusTextResponse<string>> Key(char key, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<StatusTextResponse<string>> Key(
+            char key,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             return this.Request<string>($"Key({key})", null, cancellationToken);
         }
@@ -1213,7 +1499,6 @@
         {
             return this.Request<string>("Up", null, cancellationToken);
         }
-
 
         /// <summary>
         /// Sends a HTTP request.
@@ -1343,6 +1628,7 @@
             response.PayLoad = (responseArray.Length > 1)
                                    ? string.Join(Environment.NewLine, responseArray.Skip(1))
                                    : string.Empty;
+
             /* everything went fine todo: check for conditions that lead to false. if there aren't any, remove the property. */
             response.Success = true;
             return response;

@@ -3,6 +3,8 @@ MockServer/*
 !MockServer/x3270
 MockServer/x3270/*
 !MockServer/x3270/test.wc3270
+!MockServer/x3270/testScript.bat
+!MockServer/x3270/testSource.txt
 !MockServer/sim390
 MockServer/sim390/*
 !MockServer/sim390/config.txt

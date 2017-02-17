@@ -14,13 +14,11 @@
     {
         // todo RoadMap
 
- // PrintText([[html|rtf,file,filename]|string|modi|caption,text][append,][replace,]file,filename) PrintText%28html,file,test.txt%29
+        // PrintText([[html|rtf,file,filename]|string|modi|caption,text][append,][replace,]file,filename) PrintText%28html,file,test.txt%29
         // PrintText%28rtf,test.txt%29
         // PrintText([command,]filter) <- Parameter drehen, Pipes an ASCII representation of the current screen image through the named filter, e.g., lpr.
         // PrintText(html, string) <- Returns the current screen contents as HTML.
-        
-        
-        // Script(path[,arg...])
+
         // Snap
         // Snap(Ascii) Snap%28Ascii,0,0,10
         // Snap(Cols)
@@ -29,7 +27,6 @@
         // Snap(Rows)
         // Snap(Save)
         // Snap(Status)
-        
 
         /// <summary>
         /// Outputs whatever data that has been output by the host in NVT mode since the last time that <c>AnsiText</c> was called.
@@ -53,7 +50,6 @@
         /// The <see cref="Task"/>.
         /// </returns>
         Task<StatusTextResponse<string>> Ascii(CancellationToken cancellationToken = default(CancellationToken));
-
 
         /// <summary>
         /// Receives an ASCII text representation of the screen contents.
@@ -80,7 +76,12 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<StatusTextResponse<string>> Ascii(int row, int col, int rows, int cols, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StatusTextResponse<string>> Ascii(
+            int row,
+            int col,
+            int rows,
+            int cols,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Receives an ASCII text representation of the screen contents.
@@ -103,7 +104,11 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<StatusTextResponse<string>> Ascii(int row, int col, int length, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StatusTextResponse<string>> Ascii(
+            int row,
+            int col,
+            int length,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Receives an ASCII text representation of the screen contents.
@@ -120,7 +125,9 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<StatusTextResponse<string>> Ascii(int length, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StatusTextResponse<string>> Ascii(
+            int length,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Receives an ASCII text representation of the field containing the cursor.
@@ -320,7 +327,12 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<StatusTextResponse<string>> Ebcdic(int row, int col, int rows, int cols, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StatusTextResponse<string>> Ebcdic(
+            int row,
+            int col,
+            int rows,
+            int cols,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// The same function as <c>Ascii</c>, except that rather than generating ASCII text, each character is output as a 2-digit or 4-digit hexadecimal EBCDIC code. 
@@ -340,7 +352,11 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<StatusTextResponse<string>> Ebcdic(int row, int col, int length, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StatusTextResponse<string>> Ebcdic(
+            int row,
+            int col,
+            int length,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// The same function as <c>Ascii</c>, except that rather than generating ASCII text, each character is output as a 2-digit or 4-digit hexadecimal EBCDIC code. 
@@ -354,7 +370,9 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<StatusTextResponse<string>> Ebcdic(int length, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StatusTextResponse<string>> Ebcdic(
+            int length,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// The same function as <c>AsciiField</c> above, except that it generates hexadecimal EBCDIC codes.
@@ -426,7 +444,9 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<StatusTextResponse<string>> Execute(string command, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StatusTextResponse<string>> Execute(
+            string command,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Move cursor to end of field.
@@ -462,7 +482,9 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<StatusTextResponse<string>> HexString(string hex, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StatusTextResponse<string>> HexString(
+            string hex,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Move cursor to first input field.
@@ -487,7 +509,9 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<StatusTextResponse<string>> Info(string message, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StatusTextResponse<string>> Info(
+            string message,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Set insert mode.
@@ -537,7 +561,9 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<StatusTextResponse<string>> Keymap(string keymap = "", CancellationToken cancellationToken = default(CancellationToken));
+        Task<StatusTextResponse<string>> Keymap(
+            string keymap = "",
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Move cursor left.
@@ -573,7 +599,9 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<StatusTextResponse<string>> Macro(string macroName, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StatusTextResponse<string>> Macro(
+            string macroName,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Toggle uppercase-only mode.
@@ -612,7 +640,10 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<StatusTextResponse<string>> MoveCursor(int row, int col, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StatusTextResponse<string>> MoveCursor(
+            int row,
+            int col,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Move cursor to first field on next line.
@@ -659,7 +690,9 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<StatusTextResponse<string>> Pf(int programFunctionKey, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StatusTextResponse<string>> Pf(
+            int programFunctionKey,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Returns state information. Without a keyword, Query returns each of the defined attributes, one per line, labeled by its name. 
@@ -673,7 +706,9 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<StatusTextResponse<string>> Query(QueryKeyword keyword = QueryKeyword.None, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StatusTextResponse<string>> Query(
+            QueryKeyword keyword = QueryKeyword.None,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Exit <c>x3270</c>.
@@ -695,7 +730,8 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<StatusTextResponse<string>> ReadBufferAsAscii(CancellationToken cancellationToken = default(CancellationToken));
+        Task<StatusTextResponse<string>> ReadBufferAsAscii(
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Equivalent to <c>ReadBuffer(Ascii)</c>, but with the data fields output as hexadecimal EBCDIC codes instead. Additionally, if a buffer position has the Graphic Escape attribute, it is displayed as GE(xx).
@@ -706,7 +742,8 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<StatusTextResponse<string>> ReadBufferAsEbcdic(CancellationToken cancellationToken = default(CancellationToken));
+        Task<StatusTextResponse<string>> ReadBufferAsEbcdic(
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Redraws the window.
@@ -764,7 +801,29 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<StatusTextResponse<string>> Raw(string rawCommand, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StatusTextResponse<string>> Raw(
+            string rawCommand,
+            CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Runs a child script, passing it optional command-line arguments. path must specify an executable (binary) program: the emulator will create a new process and execute it. If you simply want the emulator to read commands from a file, use the <c>Source</c> action.
+        /// </summary>
+        /// <param name="file">
+        /// The file.
+        /// </param>
+        /// <param name="args">
+        /// The args.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        Task<StatusTextResponse<string>> Script(
+            string file,
+            string[] args = null,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Scroll screen forward.
@@ -786,7 +845,222 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<StatusTextResponse<string>> ScrollBackward(CancellationToken cancellationToken = default(CancellationToken));
+        Task<StatusTextResponse<string>> ScrollBackward(
+            CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Saves a copy of the screen image and status in a temporary buffer. This copy can be queried with other Snap actions to allow a script to examine a consistent screen image, even when the host may be changing the image (or even the screen dimensions) dynamically. 
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        Task<StatusTextResponse<string>> Snap(CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Performs the <c>Ascii</c> action on the saved screen image.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        Task<StatusTextResponse<string>> SnapAscii(CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Performs the <c>Ascii</c> action on the saved screen image.
+        /// </summary>
+        /// <param name="row">
+        /// The row.
+        /// </param>
+        /// <param name="col">
+        /// The col.
+        /// </param>
+        /// <param name="rows">
+        /// The row span.
+        /// </param>
+        /// <param name="cols">
+        /// The col span.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        Task<StatusTextResponse<string>> SnapAscii(
+            int row,
+            int col,
+            int rows,
+            int cols,
+            CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Performs the <c>Ascii</c> action on the saved screen image.
+        /// </summary>
+        /// <param name="row">
+        /// The row.
+        /// </param>
+        /// <param name="col">
+        /// The col.
+        /// </param>
+        /// <param name="length">
+        /// The length of characters that are output, starting at row/col.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        Task<StatusTextResponse<string>> SnapAscii(
+            int row,
+            int col,
+            int length,
+            CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Performs the <c>Ascii</c> action on the saved screen image.
+        /// </summary>
+        /// <param name="length">
+        /// The length of characters that are output, starting at the cursor position.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        Task<StatusTextResponse<string>> SnapAscii(
+            int length,
+            CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Returns the number of columns in the saved screen image. 
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        Task<StatusTextResponse<string>> SnapCols(CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Performs the <c>Ebcdic</c> action on the saved screen image.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        Task<StatusTextResponse<string>> SnapEbcdic(CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Performs the <c>Ebcdic</c> action on the saved screen image.
+        /// </summary>
+        /// <param name="row">
+        /// The row.
+        /// </param>
+        /// <param name="col">
+        /// The col.
+        /// </param>
+        /// <param name="rows">
+        /// The row span.
+        /// </param>
+        /// <param name="cols">
+        /// The col span.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        Task<StatusTextResponse<string>> SnapEbcdic(
+            int row,
+            int col,
+            int rows,
+            int cols,
+            CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Performs the <c>Ebcdic</c> action on the saved screen image.
+        /// </summary>
+        /// <param name="row">
+        /// The row.
+        /// </param>
+        /// <param name="col">
+        /// The col.
+        /// </param>
+        /// <param name="length">
+        /// The length of characters that are output, starting at row/col.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        Task<StatusTextResponse<string>> SnapEbcdic(
+            int row,
+            int col,
+            int length,
+            CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Performs the <c>Ebcdic</c> action on the saved screen image.
+        /// </summary>
+        /// <param name="length">
+        /// The length of characters that are output, starting at the cursor position.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        Task<StatusTextResponse<string>> SnapEbcdic(
+            int length,
+            CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Returns the number of rows in the saved screen image.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        Task<StatusTextResponse<string>> SnapRows(CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Performs the ReadBuffer action on the saved screen image. 
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        Task<StatusTextResponse<string>> SnapReadBuffer(
+            CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Returns the status line from when the screen was last saved.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        Task<StatusTextResponse<string>> SnapStatus(CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Read and execute commands from file. Any output from those commands will become the output from Source. If any of the commands fails, the Source command will not abort; it will continue reading commands until EOF.
@@ -800,7 +1074,9 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<StatusTextResponse<string>> Source(string file, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StatusTextResponse<string>> Source(
+            string file,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Changes the <c>wc3270</c> window title to text. 
@@ -814,7 +1090,9 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<StatusTextResponse<string>> Title(string text, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StatusTextResponse<string>> Title(
+            string text,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Send Tab command.

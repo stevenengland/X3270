@@ -273,6 +273,9 @@
         /// </returns>
         public async Task CommandWithoutExpectedResult()
         {
+            await this.apiClient.Script("testScript.bat").ConfigureAwait(false);
+            await this.apiClient.Script("testScript.bat", new[] { "hallo", "test" }).ConfigureAwait(false);
+
             await this.apiClient.Raw("Ascii").ConfigureAwait(false);
             await this.apiClient.ReadBufferAsAscii().ConfigureAwait(false);
             await this.apiClient.ReadBufferAsEbcdic().ConfigureAwait(false);
@@ -289,6 +292,19 @@
             await this.apiClient.Query(QueryKeyword.BindPluName).ConfigureAwait(false);
             await this.apiClient.ScrollForward().ConfigureAwait(false);
             await this.apiClient.ScrollBackward().ConfigureAwait(false);
+            await this.apiClient.Snap().ConfigureAwait(false);
+            await this.apiClient.SnapAscii().ConfigureAwait(false);
+            await this.apiClient.SnapAscii(3, 3, 10, 10).ConfigureAwait(false);
+            await this.apiClient.SnapAscii(3, 3, 10).ConfigureAwait(false);
+            await this.apiClient.SnapAscii(3).ConfigureAwait(false);
+            await this.apiClient.SnapEbcdic().ConfigureAwait(false);
+            await this.apiClient.SnapEbcdic(3, 3, 10, 10).ConfigureAwait(false);
+            await this.apiClient.SnapEbcdic(3, 3, 10).ConfigureAwait(false);
+            await this.apiClient.SnapEbcdic(3).ConfigureAwait(false);
+            await this.apiClient.SnapCols().ConfigureAwait(false);
+            await this.apiClient.SnapRows().ConfigureAwait(false);
+            await this.apiClient.SnapReadBuffer().ConfigureAwait(false);
+            await this.apiClient.SnapStatus().ConfigureAwait(false);
 
 
 
