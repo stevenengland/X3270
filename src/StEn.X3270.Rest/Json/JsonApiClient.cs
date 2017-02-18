@@ -445,6 +445,11 @@ namespace StEn.X3270.Rest.Json
             throw new NotImplementedException();
         }
 
+        public Task<StatusTextResponse<string>> String(string text, CancellationToken cancellationToken = new CancellationToken())
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<StatusTextResponse<string>> Title(
             string text,
             CancellationToken cancellationToken = new CancellationToken())

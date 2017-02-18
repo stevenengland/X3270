@@ -1109,6 +1109,20 @@ namespace StEn.X3270.Rest
             CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
+        /// Insert a string.
+        /// </summary>
+        /// <param name="text">
+        /// The that shall be inserted.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        Task<StatusTextResponse<string>> String(string text, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
         /// Changes the <c>wc3270</c> window title to text. 
         /// </summary>
         /// <param name="text">

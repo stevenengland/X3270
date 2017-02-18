@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Net;
     using System.Net.Http;
+    using System.Text.RegularExpressions;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Web;
@@ -1437,6 +1438,25 @@
         }
 
         /// <summary>
+        /// Insert a string.
+        /// </summary>
+        /// <param name="text">
+        /// The that shall be inserted.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> String(
+            string text,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>($"String({text})", null, cancellationToken);
+        }
+
+        /// <summary>
         /// Changes the <c>wc3270</c> window title to text. 
         /// </summary>
         /// <param name="text">
@@ -1578,7 +1598,11 @@
             CancellationToken cancellationToken = new CancellationToken())
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var uri = new Uri(this.HostAddress + ":" + this.Port + RestRoot + HttpUtility.UrlEncode(resource));
+
+            // resource = HttpUtility.UrlEncode(resource); // Also encodes parameters within parenthesis.
+            resource = this.ReplaceCommandParenthesis(resource);
+
+            var uri = new Uri(this.HostAddress + ":" + this.Port + RestRoot + resource);
 
             HttpResponseMessage response = new HttpResponseMessage();
             var responseStr = string.Empty;
@@ -1686,6 +1710,25 @@
             /* everything went fine todo: check for conditions that lead to false. if there aren't any, remove the property. */
             response.Success = true;
             return response;
+        }
+
+        /// <summary>
+        /// Replace leading and trailing parenthesis.
+        /// </summary>
+        /// <param name="input">
+        /// The input.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        private string ReplaceCommandParenthesis(string input)
+        {
+            var pos = input.IndexOf('(');
+            if (pos < 0)
+            {
+                return input;
+            }
+            return input.Substring(0, pos) + "%28" + input.Substring(pos + 1, input.Length - pos - 2) + "%29";
         }
 
         /// <summary>

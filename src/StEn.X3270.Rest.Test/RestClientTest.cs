@@ -76,7 +76,7 @@
         {
             /* Determine if we are on the start screen */
             var response = await this.apiClient.Ascii().ConfigureAwait(false);
-            if (response.PayLoad.To2DimensionalTerminalArray()[15][10] == "u") return;
+            if (response.PayLoad.ToAsciiMatrix()[15][10] == "u") return;
 
             /* If not navigate to start screen */
             await this.apiClient.Tab().ConfigureAwait(false); // If keys are locked
@@ -84,7 +84,7 @@
 
             /* Determine if we are on the start screen */
             response = await this.apiClient.Ascii().ConfigureAwait(false);
-            Assert.That(response.PayLoad.To2DimensionalTerminalArray()[15][10] == "u");
+            Assert.That(response.PayLoad.ToAsciiMatrix()[15][10] == "u");
         }
 
         /// <summary>
@@ -171,7 +171,10 @@
         public async Task TestAscii()
         {
             var response = await this.apiClient.Ascii().ConfigureAwait(false);
-            Assert.That(response.PayLoad.To2DimensionalTerminalArray()[15][10] == "u");
+            Assert.That(response.PayLoad.ToAsciiMatrix()[15][10] == "u");
+            response = await this.apiClient.ReadBufferAsAscii().ConfigureAwait(false);
+            var byteArray = response.PayLoad.ToByteMatrix();
+            Assert.That(byteArray[15][10] == "75");
         }
 
         /// <summary>
@@ -231,10 +234,10 @@
         {
             /* Determine if we are on the start screen */
             var response = await this.apiClient.Ascii().ConfigureAwait(false);
-            Assert.That(response.PayLoad.To2DimensionalTerminalArray()[15][10] == "u");
+            Assert.That(response.PayLoad.ToAsciiMatrix()[15][10] == "u");
             await this.apiClient.Enter().ConfigureAwait(false);
             response = await this.apiClient.Ascii().ConfigureAwait(false);
-            Assert.That(response.PayLoad.To2DimensionalTerminalArray()[15][10] != "u");
+            Assert.That(response.PayLoad.ToAsciiMatrix()[15][10] != "u");
         }
 
         /// <summary>
@@ -273,6 +276,25 @@
             /* will disconnect AND and return a status */
             await this.apiClient.Disconnect().ConfigureAwait(false);
             this.StartClient(this.pathToMock + "x3270\\wc3270.exe");
+        }
+
+        /// <summary>
+        /// Test the <c>String</c> command.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        [Test, Category("Rest Actions")]
+        public async Task TestString()
+        {
+            await this.apiClient.Enter().ConfigureAwait(false);
+            await this.apiClient.String("\"insert this ()\"").ConfigureAwait(false);
+            var response = await this.apiClient.Ascii().ConfigureAwait(false);
+            Assert.That(response.PayLoad.ToAsciiMatrix()[2][17] == "i");
+            Assert.That(response.PayLoad.ToAsciiMatrix()[2][27] == "s");
+            Assert.That(response.PayLoad.ToAsciiMatrix()[2][29] == "(");
+            Assert.That(response.PayLoad.ToAsciiMatrix()[2][30] == ")");
+            Assert.That(response.PayLoad.ToAsciiMatrix()[2][23] == " ");
         }
 
         /// <summary>
@@ -424,9 +446,10 @@
             Assert.That(string.IsNullOrEmpty(response.PayLoad));
             response = await this.apiClient.Key('C').ConfigureAwait(false);
             Assert.That(string.IsNullOrEmpty(response.PayLoad));
-            //response = await this.apiClient.Key(',').ConfigureAwait(false);
-            //Assert.That(string.IsNullOrEmpty(response.PayLoad));
-            //response = await this.apiClient.Clear().ConfigureAwait(false);
+
+            // response = await this.apiClient.Key(',').ConfigureAwait(false);
+            // Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            // response = await this.apiClient.Clear().ConfigureAwait(false);
             response = await this.apiClient.Delete().ConfigureAwait(false);
             Assert.That(string.IsNullOrEmpty(response.PayLoad));
             response = await this.apiClient.DeleteField().ConfigureAwait(false);
@@ -487,14 +510,14 @@
             Assert.That(string.IsNullOrEmpty(response.PayLoad));
             response = await this.apiClient.PreviousWord().ConfigureAwait(false);
             Assert.That(string.IsNullOrEmpty(response.PayLoad));
-            response = await this.apiClient.Title("new title").ConfigureAwait(false);
+            response = await this.apiClient.Title("\"new title\"").ConfigureAwait(false);
             Assert.That(string.IsNullOrEmpty(response.PayLoad));
 
             response = await this.apiClient.Home().ConfigureAwait(false);
             Assert.That(string.IsNullOrEmpty(response.PayLoad));
             response = await this.apiClient.Clear().ConfigureAwait(false);
             Assert.That(string.IsNullOrEmpty(response.PayLoad));
-            response = await this.apiClient.Execute("echo hallo").ConfigureAwait(false);
+            response = await this.apiClient.Execute("\"echo hallo\"").ConfigureAwait(false);
             Assert.That(string.IsNullOrEmpty(response.PayLoad));
             response = await this.apiClient.MonoCase().ConfigureAwait(false);
             Assert.That(string.IsNullOrEmpty(response.PayLoad));

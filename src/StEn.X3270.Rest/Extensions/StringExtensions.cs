@@ -8,18 +8,20 @@
     public static class StringExtensions
     {
         /// <summary>
-        /// Converts a Newline separated string into a two dimensional array of strings.
-        /// Assumes that each line has the same count of characters as normal in terminals.
+        /// Takes a mask in ASCII representation (new line separated lines of ASCII symbols) and transforms it to a 2d array of ASCII symbols.
         /// </summary>
-        /// <param name="input">
-        /// The input.
+        /// <param name="mask">
+        /// The mask.
         /// </param>
         /// <returns>
-        /// A 2 dimensional array of strings.
+        /// The <see>
+        ///         <cref>string[][]</cref>
+        ///     </see>
+        ///     .
         /// </returns>
-        public static string[][] To2DimensionalTerminalArray(this string input)
+        public static string[][] ToAsciiMatrix(this string mask)
         {
-            var lines = input.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+            var lines = mask.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
             var returnStr = new string[lines.Length][];
             for (var i = 0; i < lines.Length; i++)
             {
@@ -32,5 +34,31 @@
 
             return returnStr;
         }
+
+        /// <summary>
+        /// Takes a mask in byte representation (new line separated lines of bytes) to a 2d array of byte symbols.
+        /// </summary>
+        /// <param name="mask">
+        /// The mask.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///         <cref>string[][]</cref>
+        ///     </see>
+        ///     .
+        /// </returns>
+        public static string[][] ToByteMatrix(this string mask)
+        {
+            var lines = mask.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+            var returnStr = new string[lines.Length][];
+            for (var i = 0; i < lines.Length; i++)
+            {
+                var line = lines[i].Split(' ');
+                returnStr[i] = line;
+            }
+
+            return returnStr;
+        }
+
     }
 }
