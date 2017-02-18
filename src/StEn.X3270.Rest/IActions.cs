@@ -1,4 +1,6 @@
-﻿namespace StEn.X3270.Rest
+﻿// ReSharper disable UnusedMemberInSuper.Global
+
+namespace StEn.X3270.Rest
 {
     using System.Threading;
     using System.Threading.Tasks;
@@ -12,22 +14,6 @@
     /// </summary>
     internal interface IActions
     {
-        // todo RoadMap
-
-        // PrintText([[html|rtf,file,filename]|string|modi|caption,text][append,][replace,]file,filename) PrintText%28html,file,test.txt%29
-        // PrintText%28rtf,test.txt%29
-        // PrintText([command,]filter) <- Parameter drehen, Pipes an ASCII representation of the current screen image through the named filter, e.g., lpr.
-        // PrintText(html, string) <- Returns the current screen contents as HTML.
-
-        // Snap
-        // Snap(Ascii) Snap%28Ascii,0,0,10
-        // Snap(Cols)
-        // Snap(Ebcdic,...)
-        // Snap(ReadBuffer)
-        // Snap(Rows)
-        // Snap(Save)
-        // Snap(Status)
-
         /// <summary>
         /// Outputs whatever data that has been output by the host in NVT mode since the last time that <c>AnsiText</c> was called.
         /// </summary>
@@ -693,6 +679,55 @@
         Task<StatusTextResponse<string>> Pf(
             int programFunctionKey,
             CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Print the current screen content via printer dialog.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        // ReSharper disable once UnusedMember.Global because it creates a blocking printer dialog
+        Task<StatusTextResponse<string>> PrintText(CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Print the current screen content.
+        /// </summary>
+        /// <param name="printFormat">
+        /// The print format to use.
+        /// </param>
+        /// <param name="printToScreen">
+        /// Determines whether the output shall be sent to printer or to screen.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        Task<StatusTextResponse<string>> PrintText(PrintFormat printFormat, bool printToScreen, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Print the current screen content.
+        /// </summary>
+        /// <param name="printFormat">
+        /// The print format to use.
+        /// </param>
+        /// <param name="file">
+        /// The file where the contents shall be saved.
+        /// </param>
+        /// <param name="append">
+        /// <c>true</c> means the content will be appended, <c>false</c> means the file will be replaced.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        Task<StatusTextResponse<string>> PrintText(PrintFormat printFormat, string file, bool append = false, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Returns state information. Without a keyword, Query returns each of the defined attributes, one per line, labeled by its name. 

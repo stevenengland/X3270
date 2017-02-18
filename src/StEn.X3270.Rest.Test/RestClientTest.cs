@@ -265,12 +265,29 @@
         }
 
         /// <summary>
+        /// Test the <c>PrintText</c> command.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        [Test, Category("Rest Actions")]
+        public async Task TestPrintText()
+        {
+            await this.apiClient.PrintText(PrintFormat.Html, true).ConfigureAwait(false);
+            await this.apiClient.PrintText(PrintFormat.Rtf, true).ConfigureAwait(false);
+            await this.apiClient.PrintText(PrintFormat.Modi, true).ConfigureAwait(false);
+            await this.apiClient.PrintText(PrintFormat.Html, "testPrinting.txt", true).ConfigureAwait(false);
+            await this.apiClient.PrintText(PrintFormat.Html, "testPrinting.txt").ConfigureAwait(false);
+        }
+
+        /// <summary>
         /// Run commands but don't check the result. It is only important that no error returns what means the command was accepted anyhow.
         /// Used because there is too less time to test each and every command ;)
         /// </summary>
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
+        [Test, Category("Rest Actions")]
         public async Task CommandWithoutExpectedResult()
         {
             await this.apiClient.Script("testScript.bat").ConfigureAwait(false);
@@ -305,9 +322,6 @@
             await this.apiClient.SnapRows().ConfigureAwait(false);
             await this.apiClient.SnapReadBuffer().ConfigureAwait(false);
             await this.apiClient.SnapStatus().ConfigureAwait(false);
-
-
-
             await this.apiClient.CircumNot().ConfigureAwait(false);
             await this.apiClient.BackSpace().ConfigureAwait(false);
 
@@ -356,8 +370,6 @@
             await this.apiClient.Home().ConfigureAwait(false);
             await this.apiClient.Clear().ConfigureAwait(false);
             await this.apiClient.Execute("echo hallo").ConfigureAwait(false);
-
-
             await this.apiClient.MonoCase().ConfigureAwait(false);
             await this.apiClient.MonoCase().ConfigureAwait(false);
 
@@ -365,6 +377,8 @@
 
             await this.apiClient.HexString("FF").ConfigureAwait(false);
             await this.apiClient.Source("inputSource.txt").ConfigureAwait(false); // assumes txt insame directory as x3270
+            await this.apiClient.PrintText(PrintFormat.Html, true).ConfigureAwait(false);
+            await this.apiClient.Insert().ConfigureAwait(false);
             /* will disconnect AND and return a status */
             await this.apiClient.Disconnect().ConfigureAwait(false);
         }
@@ -388,7 +402,5 @@
 
             return directory;
        }
-
-
     }
 }

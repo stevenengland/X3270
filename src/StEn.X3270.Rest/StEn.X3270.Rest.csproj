@@ -56,6 +56,7 @@
     <Compile Include="StatusText\StatusTextResponse.cs" />
     <Compile Include="Types\Enums\HtmlResponse.cs" />
     <Compile Include="Types\Enums\FileType.cs" />
+    <Compile Include="Types\Enums\PrintFormat.cs" />
     <Compile Include="Types\Enums\QueryKeyword.cs" />
     <Compile Include="Types\Enums\StatusLineField.cs" />
     <Compile Include="Types\Exception\RequestException.cs" />

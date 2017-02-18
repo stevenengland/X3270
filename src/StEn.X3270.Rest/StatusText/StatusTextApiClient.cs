@@ -702,7 +702,7 @@
             string hex,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            return this.Request<string>($"HexString({hex})");
+            return this.Request<string>($"HexString({hex})", null, cancellationToken);
         }
 
         /// <summary>
@@ -928,6 +928,72 @@
             CancellationToken cancellationToken = default(CancellationToken))
         {
             return this.Request<string>("PreviousWord", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Print the current screen content via printer dialog.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> PrintText(
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>("PrintText", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Print the current screen content.
+        /// </summary>
+        /// <param name="printFormat">
+        /// The print format to use.
+        /// </param>
+        /// <param name="printToScreen">
+        /// Determines whether the output shall be sent to printer or to screen.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> PrintText(
+            PrintFormat printFormat,
+            bool printToScreen,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.Request<string>(printToScreen ? $"PrintText({printFormat},String)" : $"PrintText({printFormat})", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Print the current screen content.
+        /// </summary>
+        /// <param name="printFormat">
+        /// The print format to use.
+        /// </param>
+        /// <param name="file">
+        /// The file where the contents shall be saved.
+        /// </param>
+        /// <param name="append">
+        /// <c>true</c> means the content will be appended, <c>false</c> means the file will be replaced.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<StatusTextResponse<string>> PrintText(
+            PrintFormat printFormat,
+            string file,
+            bool append = false,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var contentHandling = append ? "append" : "replace";
+            return this.Request<string>($"PrintText({printFormat},{contentHandling},file,{file})", null, cancellationToken);
         }
 
         /// <summary>
