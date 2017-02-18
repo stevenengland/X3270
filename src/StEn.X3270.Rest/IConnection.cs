@@ -1,7 +1,6 @@
-﻿namespace StEn.X3270.Rest
+﻿// ReSharper disable UnusedMemberInSuper.Global
+namespace StEn.X3270.Rest
 {
-    using System.Diagnostics.CodeAnalysis;
-    using System.Diagnostics.Contracts;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -10,7 +9,6 @@
     /// <summary>
     /// Defines the interface for all REST based connections.
     /// </summary>
-    [ContractClass(typeof(ConnectionContract))]
     internal interface IConnection
     {
         /// <summary>
@@ -35,41 +33,5 @@
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns><c>true</c> if the connection is established.</returns>
         Task<HtmlResponse> CheckConnectionStatus(CancellationToken cancellationToken = default(CancellationToken));
-    }
-
-    [ContractClassFor(typeof(IConnection))]
-    [SuppressMessage("ReSharper", "StyleCop.SA1600", Justification = "Only easy readable rules")]
-    internal sealed class ConnectionContract : IConnection
-    {
-        private ConnectionContract()
-        {
-            // optional safeguard, prevent instantiation
-        }
-
-        public int Port
-        {
-            get
-            {
-                Contract.Ensures(Contract.Result<int>() > 0);
-
-                return default(int);
-            }
-        }
-
-        public string HostAddress
-        {
-            get
-            {
-                Contract.Ensures(!string.IsNullOrEmpty(Contract.Result<string>()));
-
-                return default(string);
-            }
-        }
-
-        public Task<HtmlResponse> CheckConnectionStatus(
-            CancellationToken cancellationToken = default(CancellationToken))
-        {
-            throw new System.NotSupportedException();
-        }
     }
 }

@@ -1,4 +1,5 @@
-﻿namespace StEn.X3270.Rest.Types.Exception
+﻿// ReSharper disable UnusedMember.Global because some members are exposed for extended API usage
+namespace StEn.X3270.Rest.Types.Exception
 {
     using Exception = System.Exception;
 
@@ -79,10 +80,13 @@
         }
 
         /// <summary>
+        /// Gets the mapped HTTP error code.
+        /// </summary>
+        public int HttpStatusCode { get; private set; }
+
+        /// <summary>
         /// Gets the mapped external error code.
         /// </summary>
-        public int HttpStatusCode { get; internal set; }
-
-        public int ErrorCode { get; internal set; }
+        public int ErrorCode { get; private set; }
     }
 }

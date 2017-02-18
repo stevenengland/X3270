@@ -1,4 +1,5 @@
-﻿namespace StEn.X3270.Rest.Json
+﻿// ReSharper disable All
+namespace StEn.X3270.Rest.Json
 {
     using System;
     using System.Net;
@@ -6,6 +7,7 @@
     using System.Threading.Tasks;
 
     using StatusText;
+
     using Types.Enums;
 
     /// <summary>
@@ -32,22 +34,34 @@
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> Ascii(int row, int col, int rows, int cols, CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> Ascii(
+            int row,
+            int col,
+            int rows,
+            int cols,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> Ascii(int row, int col, int length, CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> Ascii(
+            int row,
+            int col,
+            int length,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> Ascii(int length, CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> Ascii(
+            int length,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> AsciiField(CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> AsciiField(
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
@@ -82,7 +96,8 @@
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> CursorSelect(CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> CursorSelect(
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
@@ -97,17 +112,20 @@
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> DeleteField(CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> DeleteField(
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> DeleteWord(CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> DeleteWord(
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> Disconnect(CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> Disconnect(
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
@@ -127,22 +145,34 @@
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> Ebcdic(int row, int col, int rows, int cols, CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> Ebcdic(
+            int row,
+            int col,
+            int rows,
+            int cols,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> Ebcdic(int row, int col, int length, CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> Ebcdic(
+            int row,
+            int col,
+            int length,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> Ebcdic(int length, CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> Ebcdic(
+            int length,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> EbcdicField(CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> EbcdicField(
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
@@ -152,12 +182,16 @@
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> Key(char key, CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> Key(
+            char key,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> Keymap(string keymap = "", CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> Keymap(
+            string keymap = "",
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
@@ -172,7 +206,9 @@
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> Macro(string macroName, CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> Macro(
+            string macroName,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
@@ -182,12 +218,16 @@
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> MoveCursor(CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> MoveCursor(
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> MoveCursor(int row, int col, CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> MoveCursor(
+            int row,
+            int col,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
@@ -202,12 +242,15 @@
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> PreviousWord(CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> PreviousWord(
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> Pf(int programFunctionKey, CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> Pf(
+            int programFunctionKey,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
@@ -234,7 +277,9 @@
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> Query(QueryKeyword keyword = QueryKeyword.None, CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> Query(
+            QueryKeyword keyword = QueryKeyword.None,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
@@ -244,12 +289,14 @@
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> ReadBufferAsAscii(CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> ReadBufferAsAscii(
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> ReadBufferAsEbcdic(CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> ReadBufferAsEbcdic(
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
@@ -274,22 +321,29 @@
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> Raw(string rawCommand, CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> Raw(
+            string rawCommand,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> Script(string file, string[] args = null, CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> Script(
+            string file,
+            string[] args = null,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> ScrollForward(CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> ScrollForward(
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> ScrollBackward(CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> ScrollBackward(
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
@@ -304,17 +358,28 @@
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> SnapAscii(int row, int col, int rows, int cols, CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> SnapAscii(
+            int row,
+            int col,
+            int rows,
+            int cols,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> SnapAscii(int row, int col, int length, CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> SnapAscii(
+            int row,
+            int col,
+            int length,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> SnapAscii(int length, CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> SnapAscii(
+            int length,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
@@ -324,22 +389,34 @@
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> SnapEbcdic(CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> SnapEbcdic(
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> SnapEbcdic(int row, int col, int rows, int cols, CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> SnapEbcdic(
+            int row,
+            int col,
+            int rows,
+            int cols,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> SnapEbcdic(int row, int col, int length, CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> SnapEbcdic(
+            int row,
+            int col,
+            int length,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> SnapEbcdic(int length, CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> SnapEbcdic(
+            int length,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
@@ -349,22 +426,28 @@
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> SnapReadBuffer(CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> SnapReadBuffer(
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> SnapStatus(CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> SnapStatus(
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> Source(string file, CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> Source(
+            string file,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> Title(string text, CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> Title(
+            string text,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
@@ -394,12 +477,15 @@
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> EraseInput(CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> EraseInput(
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> Execute(string command, CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> Execute(
+            string command,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
@@ -414,7 +500,9 @@
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> HexString(string hex, CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> HexString(
+            string hex,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
@@ -424,7 +512,9 @@
             throw new NotImplementedException();
         }
 
-        public Task<StatusTextResponse<string>> Info(string message, CancellationToken cancellationToken = new CancellationToken())
+        public Task<StatusTextResponse<string>> Info(
+            string message,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }

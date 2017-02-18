@@ -1,5 +1,4 @@
 ﻿// ReSharper disable UnusedMemberInSuper.Global
-
 namespace StEn.X3270.Rest
 {
     using System.Threading;
@@ -601,17 +600,6 @@ namespace StEn.X3270.Rest
         Task<StatusTextResponse<string>> MonoCase(CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        /// Move cursor to mouse position.
-        /// </summary>
-        /// <param name="cancellationToken">
-        /// The cancellation token.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Task"/>.
-        /// </returns>
-        Task<StatusTextResponse<string>> MoveCursor(CancellationToken cancellationToken = default(CancellationToken));
-
-        /// <summary>
         /// Move cursor to coordinate from zero-origin (row,col).
         /// </summary>
         /// <param name="row">
@@ -689,7 +677,7 @@ namespace StEn.X3270.Rest
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        // ReSharper disable once UnusedMember.Global because it creates a blocking printer dialog
+        // ReSharper disable once UnusedMember.Global because it creates a blocking printer dialogmove
         Task<StatusTextResponse<string>> PrintText(CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
@@ -707,7 +695,10 @@ namespace StEn.X3270.Rest
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<StatusTextResponse<string>> PrintText(PrintFormat printFormat, bool printToScreen, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StatusTextResponse<string>> PrintText(
+            PrintFormat printFormat,
+            bool printToScreen,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Print the current screen content.
@@ -727,7 +718,11 @@ namespace StEn.X3270.Rest
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<StatusTextResponse<string>> PrintText(PrintFormat printFormat, string file, bool append = false, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StatusTextResponse<string>> PrintText(
+            PrintFormat printFormat,
+            string file,
+            bool append = false,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Returns state information. Without a keyword, Query returns each of the defined attributes, one per line, labeled by its name. 

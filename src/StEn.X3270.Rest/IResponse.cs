@@ -1,4 +1,5 @@
-﻿namespace StEn.X3270.Rest
+﻿// ReSharper disable UnusedMemberInSuper.Global
+namespace StEn.X3270.Rest
 {
     /// <summary>
     /// The result of an request operation to the emulator.

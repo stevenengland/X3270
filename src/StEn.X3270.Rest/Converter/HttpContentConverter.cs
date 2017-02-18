@@ -56,7 +56,9 @@
         {
             return string.Join(
                 "&",
-                (from string name in parameters select string.Concat(name, "=", HttpUtility.UrlEncode(parameters[name])))
+                // ReSharper disable once StyleCop.SA1118
+                parameters.Cast<string>()
+                    .Select(name => string.Concat(name, "=", HttpUtility.UrlEncode(parameters[name])))
                     .ToArray());
         }
     }

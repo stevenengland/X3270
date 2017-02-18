@@ -95,11 +95,6 @@
         public TimeSpan UploadTimeout { get; set; } = TimeSpan.FromMinutes(1);
 
         /// <summary>
-        /// Gets or sets a value indicating whether cancel is requested.
-        /// </summary>
-        public bool CancelRequested { get; set; }
-
-        /// <summary>
         /// Gets the web proxy.
         /// </summary>
         public IWebProxy WebProxy { get; }
@@ -848,21 +843,6 @@
         }
 
         /// <summary>
-        /// Move cursor to mouse position.
-        /// </summary>
-        /// <param name="cancellationToken">
-        /// The cancellation token.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Task"/>.
-        /// </returns>
-        public Task<StatusTextResponse<string>> MoveCursor(
-            CancellationToken cancellationToken = default(CancellationToken))
-        {
-            return this.Request<string>("MoveCursor", null, cancellationToken);
-        }
-
-        /// <summary>
         /// Move cursor to coordinate from zero-origin (row,col).
         /// </summary>
         /// <param name="row">
@@ -965,7 +945,10 @@
             bool printToScreen,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            return this.Request<string>(printToScreen ? $"PrintText({printFormat},String)" : $"PrintText({printFormat})", null, cancellationToken);
+            return this.Request<string>(
+                printToScreen ? $"PrintText({printFormat},String)" : $"PrintText({printFormat})",
+                null,
+                cancellationToken);
         }
 
         /// <summary>
@@ -993,7 +976,10 @@
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var contentHandling = append ? "append" : "replace";
-            return this.Request<string>($"PrintText({printFormat},{contentHandling},file,{file})", null, cancellationToken);
+            return this.Request<string>(
+                $"PrintText({printFormat},{contentHandling},file,{file})",
+                null,
+                cancellationToken);
         }
 
         /// <summary>
@@ -1044,7 +1030,7 @@
         public Task<StatusTextResponse<string>> ReadBufferAsAscii(
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            return this.Request<string>("ReadBufferAsAscii", null, cancellationToken);
+            return this.Request<string>("ReadBuffer(Ascii)", null, cancellationToken);
         }
 
         /// <summary>
@@ -1059,7 +1045,7 @@
         public Task<StatusTextResponse<string>> ReadBufferAsEbcdic(
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            return this.Request<string>("ReadBufferAsEbcdic", null, cancellationToken);
+            return this.Request<string>("ReadBuffer(Ebcdic)", null, cancellationToken);
         }
 
         /// <summary>
@@ -1288,7 +1274,8 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        public Task<StatusTextResponse<string>> SnapCols(CancellationToken cancellationToken = default(CancellationToken))
+        public Task<StatusTextResponse<string>> SnapCols(
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             return this.Request<string>("Snap(Cols)", null, cancellationToken);
         }
@@ -1394,7 +1381,8 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        public Task<StatusTextResponse<string>> SnapRows(CancellationToken cancellationToken = default(CancellationToken))
+        public Task<StatusTextResponse<string>> SnapRows(
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             return this.Request<string>("Snap(Rows)", null, cancellationToken);
         }
@@ -1464,7 +1452,7 @@
             string text,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            return this.Request<string>($"Source({text})", null, cancellationToken);
+            return this.Request<string>($"Title({text})", null, cancellationToken);
         }
 
         /// <summary>

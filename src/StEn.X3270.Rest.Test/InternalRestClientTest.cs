@@ -1,6 +1,7 @@
 ﻿namespace StEn.X3270.Rest.Test
 {
     using NUnit.Framework;
+
     using Types.Enums;
 
     /// <summary>

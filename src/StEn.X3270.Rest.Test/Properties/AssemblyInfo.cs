@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿// ReSharper disable All
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -23,12 +24,10 @@ using System.Runtime.InteropServices;
 [assembly: Guid("164b8e33-fbbb-4d11-a2d1-8abf50d6db9d")]
 
 // Versionsinformationen für eine Assembly bestehen aus den folgenden vier Werten:
-//
 //      Hauptversion
 //      Nebenversion 
 //      Buildnummer
 //      Revision
-//
 // Sie können alle Werte angeben oder die standardmäßigen Build- und Revisionsnummern 
 // übernehmen, indem Sie "*" eingeben:
 // [assembly: AssemblyVersion("1.0.*")]

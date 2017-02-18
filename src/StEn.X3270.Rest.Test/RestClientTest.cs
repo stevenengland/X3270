@@ -1,5 +1,6 @@
 ﻿namespace StEn.X3270.Rest.Test
 {
+    using System;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
@@ -11,6 +12,7 @@
 
     using StEn.X3270.Rest.Extensions;
     using StEn.X3270.Rest.StatusText;
+    using StEn.X3270.Rest.Types;
     using StEn.X3270.Rest.Types.Enums;
     using StEn.X3270.Rest.Types.Exception;
 
@@ -52,40 +54,15 @@
         {
             if (!Directory.Exists(this.pathToMock)) throw new DirectoryNotFoundException();
 
-            string serverAppPath = this.pathToMock + "sim390\\sim390_17.exe";
-            string clientAppPath = this.pathToMock + "x3270\\wc3270.exe";
+            var serverAppPath = this.pathToMock + "sim390\\sim390_17.exe";
+            var clientAppPath = this.pathToMock + "x3270\\wc3270.exe";
 
             if (!File.Exists(serverAppPath) || !File.Exists(clientAppPath)) throw new FileNotFoundException("Either server or client app not found.");
 
             /* create the server and terminal to interact with */
-            var serverStartInfo = new ProcessStartInfo
-                                      {
-                                          CreateNoWindow = false,
-                                          Arguments = "config.txt", // no double quotes allowed
-                                          FileName = serverAppPath,
-                                          RedirectStandardError = false,
-                                          RedirectStandardOutput = false,
-                                          UseShellExecute = false,
-
-                                          // ReSharper disable once AssignNullToNotNullAttribute
-                                          WorkingDirectory = Path.GetDirectoryName(serverAppPath)
-                                      };
-            var clientStartInfo = new ProcessStartInfo
-                                      {
-                                          CreateNoWindow = false,
-                                          Arguments = "-httpd 6001 +S \"test.wc3270\"",
-                                          FileName = clientAppPath,
-                                          RedirectStandardError = false,
-                                          RedirectStandardOutput = false,
-                                          UseShellExecute = true,
-
-                                          // ReSharper disable once AssignNullToNotNullAttribute
-                                          WorkingDirectory = Path.GetDirectoryName(clientAppPath)
-                                      };
-
-            this.server = Process.Start(serverStartInfo);
+            this.StartServer(serverAppPath);
             Thread.Sleep(5000); // not really important, more for visual inspections in attended tests
-            this.client = Process.Start(clientStartInfo);
+            this.StartClient(clientAppPath);
         }
 
         /// <summary>
@@ -100,9 +77,11 @@
             /* Determine if we are on the start screen */
             var response = await this.apiClient.Ascii().ConfigureAwait(false);
             if (response.PayLoad.To2DimensionalTerminalArray()[15][10] == "u") return;
+
             /* If not navigate to start screen */
             await this.apiClient.Tab().ConfigureAwait(false); // If keys are locked
             await this.apiClient.Pf(3).ConfigureAwait(false); // log off
+
             /* Determine if we are on the start screen */
             response = await this.apiClient.Ascii().ConfigureAwait(false);
             Assert.That(response.PayLoad.To2DimensionalTerminalArray()[15][10] == "u");
@@ -149,6 +128,25 @@
         }
 
         #endregion
+
+        /// <summary>
+        /// Test output of the status line.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        [Test, Category("Rest Status")]
+        public async Task TestStatusLine()
+        {
+            var response = await this.apiClient.Ascii().ConfigureAwait(false);
+            Assert.True(
+                !string.IsNullOrEmpty(response.KeyboardState) && !string.IsNullOrEmpty(response.ScreenFormatting)
+                && !string.IsNullOrEmpty(response.FieldProtection) && !string.IsNullOrEmpty(response.ConnectionState)
+                && !string.IsNullOrEmpty(response.EmulatorMode)
+                && (response.ModelNumber > 0 && response.ModelNumber < 6) && response.NumberOfColumns > 0
+                && response.NumberOfRows > -1 && response.CursorRow > -1 && response.CursorColumn > -1
+                && !string.IsNullOrEmpty(response.WindowId) && response.CommandExecutionTime == TimeSpan.Zero);
+        }
 
         /// <summary>
         /// Test the connectivity routine.
@@ -243,11 +241,38 @@
         /// Test the <c>Macro</c> command.
         /// </summary>
         [Test, Category("Rest Actions")]
-        public void TestMacroAndQuit()
+        public void TestMacro()
         {
-            var ex = Assert.ThrowsAsync<RequestException>(async () => await this.apiClient.Macro("testmacro").ConfigureAwait(false));
+            var ex =
+                Assert.ThrowsAsync<RequestException>(
+                    async () => await this.apiClient.Macro("testmacro").ConfigureAwait(false));
             Assert.That(ex.Message == "no such macro: 'testmacro'");
+            Assert.That(ex.HttpStatusCode > 399);
+            Assert.That(ex.ErrorCode == 0);
+        }
+
+        /// <summary>
+        /// Test the <c>Quit</c> command.
+        /// </summary>
+        [Test, Category("Rest Actions")]
+        public void TestQuit()
+        {
             Assert.ThrowsAsync<RequestException>(async () => await this.apiClient.Quit().ConfigureAwait(false));
+            this.StartClient(this.pathToMock + "x3270\\wc3270.exe");
+        }
+
+        /// <summary>
+        /// Test the <c>Disconnect</c> command.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        [Test, Category("Rest Actions")]
+        public async Task TestDisconnect()
+        {
+            /* will disconnect AND and return a status */
+            await this.apiClient.Disconnect().ConfigureAwait(false);
+            this.StartClient(this.pathToMock + "x3270\\wc3270.exe");
         }
 
         /// <summary>
@@ -259,9 +284,14 @@
         [Test, Category("Rest Actions")]
         public async Task TestKeymap()
         {
-            await this.apiClient.Keymap().ConfigureAwait(false);
-            var ex = Assert.ThrowsAsync<RequestException>(async () => await this.apiClient.Keymap("test").ConfigureAwait(false));
-            Assert.That(ex.Message == "no such keymap: 'test'");
+            var response = await this.apiClient.Keymap().ConfigureAwait(false);
+            Assert.That(response.Success);
+            var ex =
+                Assert.ThrowsAsync<RequestException>(
+                    async () => await this.apiClient.Keymap("test").ConfigureAwait(false));
+            Assert.That(ex.Message == "No such keymap resource or file: test");
+            Assert.That(ex.HttpStatusCode > 399);
+            Assert.That(ex.ErrorCode == 0);
         }
 
         /// <summary>
@@ -281,6 +311,30 @@
         }
 
         /// <summary>
+        /// Test the <c>Query</c> command.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        [Test, Category("Rest Actions")]
+        public async Task TestQuery()
+        {
+            await this.apiClient.Query().ConfigureAwait(false);
+            await this.apiClient.Query(QueryKeyword.BindPluName).ConfigureAwait(false);
+            await this.apiClient.Query(QueryKeyword.ConnectionState).ConfigureAwait(false);
+            await this.apiClient.Query(QueryKeyword.CodePage).ConfigureAwait(false);
+            await this.apiClient.Query(QueryKeyword.Cursor).ConfigureAwait(false);
+            await this.apiClient.Query(QueryKeyword.Formatted).ConfigureAwait(false);
+            await this.apiClient.Query(QueryKeyword.Host).ConfigureAwait(false);
+            await this.apiClient.Query(QueryKeyword.LocalEncoding).ConfigureAwait(false);
+            await this.apiClient.Query(QueryKeyword.LuName).ConfigureAwait(false);
+            await this.apiClient.Query(QueryKeyword.Model).ConfigureAwait(false);
+            await this.apiClient.Query(QueryKeyword.ScreenCurSize).ConfigureAwait(false);
+            await this.apiClient.Query(QueryKeyword.ScreenMaxSize).ConfigureAwait(false);
+            await this.apiClient.Query(QueryKeyword.Ssl).ConfigureAwait(false);
+        }
+
+        /// <summary>
         /// Run commands but don't check the result. It is only important that no error returns what means the command was accepted anyhow.
         /// Used because there is too less time to test each and every command ;)
         /// </summary>
@@ -290,97 +344,198 @@
         [Test, Category("Rest Actions")]
         public async Task CommandWithoutExpectedResult()
         {
-            await this.apiClient.Script("testScript.bat").ConfigureAwait(false);
-            await this.apiClient.Script("testScript.bat", new[] { "hallo", "test" }).ConfigureAwait(false);
+            var response = await this.apiClient.Script("testScript.bat").ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Script("testScript.bat", new[] { "hallo", "test" }).ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Raw("Ascii").ConfigureAwait(false);
+            Assert.That(!string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.ReadBufferAsAscii().ConfigureAwait(false);
+            Assert.That(!string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.ReadBufferAsEbcdic().ConfigureAwait(false);
+            Assert.That(!string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Redraw().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Reset().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Ascii(0, 0, 10, 10).ConfigureAwait(false);
+            Assert.That(!string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Ascii(0, 0, 10).ConfigureAwait(false);
+            Assert.That(!string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Ascii(10).ConfigureAwait(false);
+            Assert.That(!string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Ebcdic(0, 0, 10, 10).ConfigureAwait(false);
+            Assert.That(!string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Ebcdic(0, 0, 10).ConfigureAwait(false);
+            Assert.That(!string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Ebcdic(10).ConfigureAwait(false);
+            Assert.That(!string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.AnsiText().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.ScrollForward().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.ScrollBackward().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Snap().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.SnapAscii().ConfigureAwait(false);
+            Assert.That(!string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.SnapAscii(3, 3, 10, 10).ConfigureAwait(false);
+            Assert.That(!string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.SnapAscii(3, 3, 10).ConfigureAwait(false);
+            Assert.That(!string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.SnapAscii(3).ConfigureAwait(false);
+            Assert.That(!string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.SnapEbcdic().ConfigureAwait(false);
+            Assert.That(!string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.SnapEbcdic(3, 3, 10, 10).ConfigureAwait(false);
+            Assert.That(!string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.SnapEbcdic(3, 3, 10).ConfigureAwait(false);
+            Assert.That(!string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.SnapEbcdic(3).ConfigureAwait(false);
+            Assert.That(!string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.SnapCols().ConfigureAwait(false);
+            Assert.That(!string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.SnapRows().ConfigureAwait(false);
+            Assert.That(!string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.SnapReadBuffer().ConfigureAwait(false);
+            Assert.That(!string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.SnapStatus().ConfigureAwait(false);
+            Assert.That(!string.IsNullOrEmpty(response.PayLoad));
 
-            await this.apiClient.Raw("Ascii").ConfigureAwait(false);
-            await this.apiClient.ReadBufferAsAscii().ConfigureAwait(false);
-            await this.apiClient.ReadBufferAsEbcdic().ConfigureAwait(false);
-            await this.apiClient.Redraw().ConfigureAwait(false);
-            await this.apiClient.Reset().ConfigureAwait(false);
-            await this.apiClient.Ascii(0, 0, 10, 10).ConfigureAwait(false);
-            await this.apiClient.Ascii(0, 0, 10).ConfigureAwait(false);
-            await this.apiClient.Ascii(10).ConfigureAwait(false);
-            await this.apiClient.Ebcdic(0, 0, 10, 10).ConfigureAwait(false);
-            await this.apiClient.Ebcdic(0, 0, 10).ConfigureAwait(false);
-            await this.apiClient.Ebcdic(10).ConfigureAwait(false);
-            await this.apiClient.AnsiText().ConfigureAwait(false);
-            await this.apiClient.Query().ConfigureAwait(false);
-            await this.apiClient.Query(QueryKeyword.BindPluName).ConfigureAwait(false);
-            await this.apiClient.ScrollForward().ConfigureAwait(false);
-            await this.apiClient.ScrollBackward().ConfigureAwait(false);
-            await this.apiClient.Snap().ConfigureAwait(false);
-            await this.apiClient.SnapAscii().ConfigureAwait(false);
-            await this.apiClient.SnapAscii(3, 3, 10, 10).ConfigureAwait(false);
-            await this.apiClient.SnapAscii(3, 3, 10).ConfigureAwait(false);
-            await this.apiClient.SnapAscii(3).ConfigureAwait(false);
-            await this.apiClient.SnapEbcdic().ConfigureAwait(false);
-            await this.apiClient.SnapEbcdic(3, 3, 10, 10).ConfigureAwait(false);
-            await this.apiClient.SnapEbcdic(3, 3, 10).ConfigureAwait(false);
-            await this.apiClient.SnapEbcdic(3).ConfigureAwait(false);
-            await this.apiClient.SnapCols().ConfigureAwait(false);
-            await this.apiClient.SnapRows().ConfigureAwait(false);
-            await this.apiClient.SnapReadBuffer().ConfigureAwait(false);
-            await this.apiClient.SnapStatus().ConfigureAwait(false);
-            await this.apiClient.CircumNot().ConfigureAwait(false);
-            await this.apiClient.BackSpace().ConfigureAwait(false);
+            response = await this.apiClient.Enter().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
 
-            await this.apiClient.CursorSelect().ConfigureAwait(false);
-            await this.apiClient.BackTab().ConfigureAwait(false);
-            await this.apiClient.Tab().ConfigureAwait(false);
+            response = await this.apiClient.CircumNot().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.BackSpace().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
 
-            await this.apiClient.Home().ConfigureAwait(false);
-            await this.apiClient.Compose().ConfigureAwait(false);  
-            await this.apiClient.Key('C').ConfigureAwait(false);
-            await this.apiClient.Key(',').ConfigureAwait(false);
-            await this.apiClient.Delete().ConfigureAwait(false);
-            await this.apiClient.DeleteField().ConfigureAwait(false);
-            await this.apiClient.DeleteWord().ConfigureAwait(false);
-            await this.apiClient.Cut().ConfigureAwait(false);
-            await this.apiClient.Clear().ConfigureAwait(false);
-            await this.apiClient.Down().ConfigureAwait(false);
-            await this.apiClient.Up().ConfigureAwait(false);
-            await this.apiClient.Home().ConfigureAwait(false);
-            await this.apiClient.Dup().ConfigureAwait(false);
-            await this.apiClient.Ebcdic().ConfigureAwait(false);
-            await this.apiClient.EbcdicField().ConfigureAwait(false);
-            await this.apiClient.Erase().ConfigureAwait(false);
-            await this.apiClient.EraseEof().ConfigureAwait(false);
-            await this.apiClient.EraseInput().ConfigureAwait(false);
-            await this.apiClient.FieldEnd().ConfigureAwait(false);
-            await this.apiClient.FieldMark().ConfigureAwait(false);
-            await this.apiClient.Info("test").ConfigureAwait(false);
-            await this.apiClient.Ignore().ConfigureAwait(false);
-            await this.apiClient.Home().ConfigureAwait(false);
-            await this.apiClient.Left().ConfigureAwait(false);
-            await this.apiClient.Left2().ConfigureAwait(false);
-            await this.apiClient.Right().ConfigureAwait(false);
-            await this.apiClient.Right2().ConfigureAwait(false);
+            response = await this.apiClient.CursorSelect().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.BackTab().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Tab().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
 
-            await this.apiClient.MoveCursor().ConfigureAwait(false);
-            await this.apiClient.MoveCursor(0, 0).ConfigureAwait(false);
+            response = await this.apiClient.Home().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Compose().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Key('C').ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            //response = await this.apiClient.Key(',').ConfigureAwait(false);
+            //Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            //response = await this.apiClient.Clear().ConfigureAwait(false);
+            response = await this.apiClient.Delete().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.DeleteField().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.DeleteWord().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Cut().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Clear().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Down().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Up().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Home().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Dup().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Ebcdic().ConfigureAwait(false);
+            Assert.That(!string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.EbcdicField().ConfigureAwait(false);
+            Assert.That(!string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Erase().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.EraseEof().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.EraseInput().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.FieldEnd().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.FieldMark().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Info("test").ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Ignore().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Home().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Left().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Left2().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Right().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Right2().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
 
-            await this.apiClient.Home().ConfigureAwait(false);
-            await this.apiClient.Clear().ConfigureAwait(false);
-            await this.apiClient.Newline().ConfigureAwait(false);
-            await this.apiClient.NextWord().ConfigureAwait(false);
-            await this.apiClient.PreviousWord().ConfigureAwait(false);
-            await this.apiClient.Title("new title").ConfigureAwait(false);
+            response = await this.apiClient.MoveCursor(0, 0).ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
 
-            await this.apiClient.Home().ConfigureAwait(false);
-            await this.apiClient.Clear().ConfigureAwait(false);
-            await this.apiClient.Execute("echo hallo").ConfigureAwait(false);
-            await this.apiClient.MonoCase().ConfigureAwait(false);
-            await this.apiClient.MonoCase().ConfigureAwait(false);
+            response = await this.apiClient.Home().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Clear().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Newline().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.NextWord().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.PreviousWord().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Title("new title").ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
 
-            await this.apiClient.Attn().ConfigureAwait(false);
+            response = await this.apiClient.Home().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Clear().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Execute("echo hallo").ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.MonoCase().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.MonoCase().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
 
-            await this.apiClient.HexString("FF").ConfigureAwait(false);
-            await this.apiClient.Source("inputSource.txt").ConfigureAwait(false); // assumes txt insame directory as x3270
-            await this.apiClient.PrintText(PrintFormat.Html, true).ConfigureAwait(false);
-            await this.apiClient.Insert().ConfigureAwait(false);
-            /* will disconnect AND and return a status */
-            await this.apiClient.Disconnect().ConfigureAwait(false);
+            response = await this.apiClient.Attn().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+
+            response = await this.apiClient.HexString("FF").ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+            response = await this.apiClient.Source("testSource.txt").ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+
+            response = await this.apiClient.Insert().ConfigureAwait(false);
+            Assert.That(string.IsNullOrEmpty(response.PayLoad));
+        }
+
+        /// <summary>
+        /// Test uploading of files.
+        /// </summary>
+        [Test, Category("Rest Actions")]
+        public void TestFileUpload()
+        {
+            using (var fileStream = new FileStream(this.pathToMock + "x3270\\test.txt", FileMode.Open))
+            {
+                var fts1 = new FileToSend("test.txt", fileStream);
+                var filename = fts1.Filename; // for later uploads
+                Assert.That(filename == "test.txt");
+                Assert.AreEqual(fts1.Type, FileType.Stream);
+            }
+
+            var fts2 = new FileToSend(new Uri("https://github.com/stevenengland/X3270/master/newFile.png"));
+            Assert.AreEqual(fts2.Type, FileType.Url);
+
+            var fts3 = new FileToSend("https://github.com/stevenengland/X3270/master/abcdefg-hijkl-mnop");
+            var fileId = fts3.FileId; // for later uploads
+            Assert.That(fileId == "https://github.com/stevenengland/X3270/master/abcdefg-hijkl-mnop");
+            Assert.AreEqual(fts3.Type, FileType.Id);
+
+            // lacks real uploading at the moment
         }
 
         /// <summary>
@@ -401,6 +556,54 @@
             }
 
             return directory;
-       }
+        }
+
+        /// <summary>
+        /// Starts the x3270 client.
+        /// </summary>
+        /// <param name="clientAppPath">
+        /// The client app path.
+        /// </param>
+        private void StartClient(string clientAppPath)
+        {
+            var clientStartInfo = new ProcessStartInfo
+            {
+                CreateNoWindow = false,
+                Arguments = "-httpd 6001 +S \"test.wc3270\"",
+                FileName = clientAppPath,
+                RedirectStandardError = false,
+                RedirectStandardOutput = false,
+                UseShellExecute = true,
+
+                // ReSharper disable once AssignNullToNotNullAttribute
+                WorkingDirectory = Path.GetDirectoryName(clientAppPath)
+            };
+
+            this.client = Process.Start(clientStartInfo);
+        }
+
+        /// <summary>
+        /// Start the <c>Sim390</c> server.
+        /// </summary>
+        /// <param name="serverAppPath">
+        /// The server app path.
+        /// </param>
+        private void StartServer(string serverAppPath)
+        {
+            var serverStartInfo = new ProcessStartInfo
+            {
+                CreateNoWindow = false,
+                Arguments = "config.txt", // no double quotes allowed
+                FileName = serverAppPath,
+                RedirectStandardError = false,
+                RedirectStandardOutput = false,
+                UseShellExecute = false,
+
+                // ReSharper disable once AssignNullToNotNullAttribute
+                WorkingDirectory = Path.GetDirectoryName(serverAppPath)
+            };
+
+            this.server = Process.Start(serverStartInfo);
+        }
     }
 }

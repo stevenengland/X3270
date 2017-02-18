@@ -1,8 +1,13 @@
 ﻿namespace StEn.X3270.Rest.StatusText
 {
     using System;
-    using System.Text;
 
+    /// <summary>
+    /// Represents a response from the <c>Status Text</c> interface.
+    /// </summary>
+    /// <typeparam name="T">
+    /// The type of the response.
+    /// </typeparam>
     public class StatusTextResponse<T> : IResponse<T>
     {
         /// <summary>
@@ -14,11 +19,6 @@
         /// Gets the command execution time. The time that it took for the host to respond to the previous command, in seconds with milliseconds after the decimal. If the previous command did not require a host response, this is a dash. 
         /// </summary>
         public TimeSpan CommandExecutionTime { get; internal set; }
-
-        /// <summary>
-        /// Gets the encoding of the result.
-        /// </summary>
-        public Encoding Encoding { get; internal set; }
 
         /// <summary>
         /// Gets the keyboard state. If the keyboard is unlocked, the letter U. If the keyboard is locked waiting for a response from the host, or if not connected to a host, the letter L. If the keyboard is locked because of an operator error (field overflow, protected field, etc.), the letter E. 

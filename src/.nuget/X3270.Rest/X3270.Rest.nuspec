@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<package >
+
+<package>
   <metadata>
     <id>X3270.Rest</id>
     <version>0.1.0</version>
@@ -10,8 +11,8 @@
       X3270.Rest is a wrapper for the x3270 REST interface that enables you to remote control a running x3270 terminal sessions.
     </description>
     <releaseNotes>
-      - 0.1.0 
-        - Initial release
+      - 0.1.0
+      - Initial release
     </releaseNotes>
     <summary>
       X3270.Rest is a wrapper for the x3270 REST interface.

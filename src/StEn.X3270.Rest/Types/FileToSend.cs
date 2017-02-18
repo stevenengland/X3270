@@ -11,39 +11,6 @@
     public struct FileToSend
     {
         /// <summary>
-        /// Gets or sets the file name for uploaded file.
-        /// </summary>
-        public string Filename { get; set; }
-
-        /// <summary>
-        /// Gets or sets the file content for uploaded file.
-        /// </summary>
-        public Stream Content { get; set; }
-
-        /// <summary>
-        /// Gets or sets the file uri.
-        /// </summary>
-        public Uri Url { get; set; }
-
-        /// <summary>
-        /// Gets or sets the file ID
-        /// </summary>
-        public string FileId { get; set; }
-
-        /// <summary>
-        /// Gets the type of file to send.
-        /// </summary>
-        public FileType Type
-        {
-            get
-            {
-                if (this.Content != null) return FileType.Stream;
-                if (this.FileId != null) return FileType.Id;
-                return this.Url != null ? FileType.Url : FileType.Unknown;
-            }
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="FileToSend"/> struct. 
         /// </summary>
         /// <param name="filename">
@@ -80,7 +47,7 @@
         /// Initializes a new instance of the <see cref="FileToSend"/> struct. 
         /// </summary>
         /// <param name="fileId">
-        /// The ID of the file to send.
+        /// The ID of the file to send. Id means a resource ID like a GUID of a file on the server.
         /// </param>
         public FileToSend(string fileId)
         {
@@ -90,5 +57,38 @@
             this.Content = null;
             this.Url = null;
         }
+
+        /// <summary>
+        /// Gets the file name for uploaded file.
+        /// </summary>
+        public string Filename { get; private set; }
+
+        /// <summary>
+        /// Gets the file content for uploaded file.
+        /// </summary>
+        public Stream Content { get; }
+
+        /// <summary>
+        /// Gets the file ID
+        /// </summary>
+        public string FileId { get; }
+
+        /// <summary>
+        /// Gets the type of file to send.
+        /// </summary>
+        public FileType Type
+        {
+            get
+            {
+                if (this.Content != null) return FileType.Stream;
+                if (this.FileId != null) return FileType.Id;
+                return this.Url != null ? FileType.Url : FileType.Unknown;
+            }
+        }
+
+        /// <summary>
+        /// Gets the file uri.
+        /// </summary>
+        private Uri Url { get; }
     }
 }
